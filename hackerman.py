@@ -1,15 +1,20 @@
 from console import Console
+from kernel import Kernel
 
 
 class Hackerman:
+    def __init__(self):
+        self.kernel = Kernel()
+        self.console = Console(self.kernel)
+
     def main(self):
-        self.console = Console()
+        self.kernel.start()
         self.console.start()
         try:
-            self.console.join()
+            self.kernel.join()
         except KeyboardInterrupt:
-            self.console.shutdown()
-            self.console.join(1.0)
+            self.kernel.shutdown()
+            self.kernel.join(1.0)
 
 
 if __name__ == "__main__":
