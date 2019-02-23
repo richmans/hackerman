@@ -40,4 +40,5 @@ class Kernel(Thread):
     def run(self):
         while not self.shutting_down:
            self.scheduler(self.time_slice)
+           self.clean_proclist()
            sleep(0.1)

@@ -6,7 +6,7 @@ class ScanProgram(Program):
     long_running = True
 
     def execute(self, execution_time=0.1):
-        self.add_progress(execution_time)
+        self.add_progress(execution_time*10)
 
 
 register_program('scan', ScanProgram)
