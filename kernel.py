@@ -16,6 +16,8 @@ class Kernel(Thread):
         self.shutting_down = True
 
     def handle_command(self, command:Command):
+        if command.program == '':
+            return
         program = programs.get(command.program)
         if not program:
             command.stdout.error("Unknown program: {}".format(command.program))
