@@ -6,9 +6,11 @@ from command import Command
 
 
 class Console(Thread):
-    def __init__(self, kernel):
+    def __init__(self, kernel, stdin, stdout):
         self.shutting_down = False
         self.kernel = kernel
+        self.stdout = stdout
+        self.stdin = stdin
         super().__init__()
         self.daemon = True
 
@@ -26,8 +28,8 @@ class Console(Thread):
             end = '\n'
         else:
             end = ''
-        print(msg.format(c=colorful), end=end)
-        sys.stdout.flush()
+        self.stdout.write(msg.format(c=colorful) + end)
+        self.stdout.flush()
 
     def error(self, msg):
         self.print("{c.red}" + msg + "{c.close_fg_color}")
@@ -36,9 +38,11 @@ class Console(Thread):
         self.print("$ ", False)
 
     def get_command(self):
-        i, o, e = select.select([sys.stdin], [], [], 1)
-        if i:
-            return Command(sys.stdin.readline(), self, self)
+        cmd = self.stdin.readline()
+        if cmd:
+            return Command(cmd, self, self)
+        else:
+            return None
 
     def handle_command(self, command):
         self.kernel.handle_command(command)
