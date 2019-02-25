@@ -8,7 +8,6 @@ class ExitProgram(Program):
     def execute(self):
         self.stdout.print("{c.red}Shutting down...{c.close_fg_color}")
         self.kernel.shutdown()
-        self.done()
 
 
 register_program('exit', ExitProgram)

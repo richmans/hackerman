@@ -17,3 +17,10 @@ class Program:
 
     def done(self):
         self.state = 'finished'
+
+    def run(self, exec_time=0.1):
+        if self.long_running:
+            self.execute(exec_time)
+        else:
+            self.execute()
+            self.done()

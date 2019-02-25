@@ -15,3 +15,8 @@ def get(name):
 import programs.exit
 import programs.scan
 import programs.proclist
+import programs.list_dir
+import programs.make_dir
+import programs.make_file
+import programs.read
+import programs.write

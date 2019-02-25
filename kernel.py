@@ -3,11 +3,14 @@ from time import sleep
 from command import Command
 import programs
 import random
+from fs import Filesystem
+
 
 class Kernel(Thread):
     def __init__(self):
         self.shutting_down = False
         self.proclist = []
+        self.fs = Filesystem()
         super().__init__()
         self.time_slice = 0.1
         self.daemon = True
@@ -27,7 +30,10 @@ class Kernel(Thread):
             self.proclist.append(process)
             command.stdin.print("{c.yellow}Kernel: Program has been started in the background{c.close_fg_color}")
         else:
-            process.execute()
+            try:
+                process.run()
+            except Exception as e:
+                command.stdout.print("{c.red}" + str(e) + "{c.close_fg_color}")
 
     def scheduler(self, run_time):
         ready_procs = [p for p in self.proclist if p.state == 'running']
